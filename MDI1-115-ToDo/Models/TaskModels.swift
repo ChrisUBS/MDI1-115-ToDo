@@ -18,6 +18,7 @@ struct TaskGroup: Identifiable, Hashable, Codable {
     var title: String
     var symbolName: String
     var tasks: [TaskItem]
+    var createdAt: Date = Date()
 }
 
 // MARK: - MOCK DATA

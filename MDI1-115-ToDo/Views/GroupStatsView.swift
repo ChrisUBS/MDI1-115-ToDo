@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GroupStatsView: View {
+    var group: TaskGroup
     var tasks: [TaskItem]
     var completedCount: Int { tasks.filter {$0.isCompleted}.count }
     var progress: Double { tasks.isEmpty ? 0 : Double(completedCount) / Double(tasks.count) }
@@ -39,6 +40,7 @@ struct GroupStatsView: View {
                 Text("\(completedCount) / \(tasks.count) tasks")
             }
             Spacer()
+            Text("Created: \(group.createdAt.formatted(date: .long, time: .omitted))")
         }
         .padding()
     }

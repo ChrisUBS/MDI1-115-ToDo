@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @AppStorage("isDarkMode") private var isDarkMode = false
+    @State private var isShowingSettings = false
     @State private var taskGroups: [TaskGroup] = []
     @State private var selectedGroup: TaskGroup? // Selected group
     @State private var columnVisibility: NavigationSplitViewVisibility = .all // Navigation side panel
@@ -30,9 +31,9 @@ struct ContentView: View {
             .listStyle(.sidebar)
             .toolbar {
                 Button {
-                    isDarkMode.toggle()
+                    isShowingSettings = true
                 } label: {
-                    Image(systemName: isDarkMode ? "moon.fill" : "sun.max.fill")
+                    Image(systemName: "gearshape")
                 }
                 Button {
                     isShowingAddGroup = true
@@ -50,10 +51,13 @@ struct ContentView: View {
             }
         }
         .preferredColorScheme(isDarkMode ? .dark : .light)
+        .sheet(isPresented: $isShowingSettings) {
+            SettingsView()
+        }
         .sheet(isPresented: $isShowingAddGroup) {
             NewGroupView { newGroup in
                 taskGroups.append(newGroup)
-                selectedGroup = newGroup // automatically show up the details of the new group I created
+                selectedGroup = newGroup
             }
         }
         .onAppear{

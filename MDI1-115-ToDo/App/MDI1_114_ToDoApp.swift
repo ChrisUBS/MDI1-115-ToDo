@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct MDI1_114_ToDoApp: App {
+    @StateObject private var languageManager = LanguageManager()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(languageManager)
+                .environment(\.locale, languageManager.locale)
         }
     }
 }

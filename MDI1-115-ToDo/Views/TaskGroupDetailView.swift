@@ -15,7 +15,7 @@ struct TaskGroupDetailView: View {
         VStack {
             List {
                 if sizeClass == .regular {
-                    GroupStatsView(tasks: groups.tasks)
+                    GroupStatsView(group: groups, tasks: groups.tasks)
                 }
                 ForEach($groups.tasks) { $task in
                     HStack {
