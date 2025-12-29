@@ -9,57 +9,46 @@ import SwiftUI
 
 struct ContentView: View {
     @AppStorage("isDarkMode") private var isDarkMode = false
-    @State private var isShowingSettings = false
     @State private var taskGroups: [TaskGroup] = []
-    @State private var selectedGroup: TaskGroup? // Selected group
-    @State private var columnVisibility: NavigationSplitViewVisibility = .all // Navigation side panel
-    @State private var isShowingAddGroup = false
+    @State private var profiles: [Profile] = []
+    @State private var path = NavigationPath()
     @Environment(\.scenePhase) private var scenePhase
     
-    let saveKey = "savedTaskGroups"
+    let saveKey = "savedProfiles"
+    let columns = [GridItem(.adaptive(minimum: 150))]
     
     var body: some View {
-        NavigationSplitView(columnVisibility: $columnVisibility) {
-            List(selection: $selectedGroup) {
-                ForEach(taskGroups) { group in
-                    NavigationLink(value: group) {
-                        Label(group.title, systemImage: group.symbolName)
+        NavigationStack(path: $path) {
+            ScrollView {
+                VStack {
+                    Text("Select the working profile")
+                        .font(.largeTitle.bold())
+                    LazyVGrid(columns: columns, spacing: 20) {
+                        ForEach($profiles) { $profile in
+                            NavigationLink(value: profile) {
+                                VStack {
+                                    Image(profile.profileImage)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 80, height: 80)
+                                        .clipShape(.circle)
+                                    Text(profile.name)
+                                }
+                            }
+                        }
                     }
                 }
             }
-            .navigationTitle("ToDo App")
-            .listStyle(.sidebar)
-            .toolbar {
-                Button {
-                    isShowingSettings = true
-                } label: {
-                    Image(systemName: "gearshape")
+            .navigationTitle("Home")
+            .navigationBarHidden(true)
+            .navigationDestination(for: Profile.self) { selectedProfile in
+                if let index = profiles.firstIndex(where: { $0.id == selectedProfile.id }) {
+                    DashboardView(profile: $profiles[index])
+                        .navigationBarBackButtonHidden(true)
                 }
-                Button {
-                    isShowingAddGroup = true
-                } label: {
-                    Image(systemName: "plus")
-                }
-            }
-        } detail: {
-            if let group = selectedGroup {
-                if let index = taskGroups.firstIndex(where: { $0.id == group.id }) {
-                    TaskGroupDetailView(groups: $taskGroups[index])
-                }
-            } else {
-                ContentUnavailableView("Select a Group" , systemImage: "sidebar.left")
             }
         }
         .preferredColorScheme(isDarkMode ? .dark : .light)
-        .sheet(isPresented: $isShowingSettings) {
-            SettingsView()
-        }
-        .sheet(isPresented: $isShowingAddGroup) {
-            NewGroupView { newGroup in
-                taskGroups.append(newGroup)
-                selectedGroup = newGroup
-            }
-        }
         .onAppear{
             loadData()
         }
@@ -76,20 +65,19 @@ struct ContentView: View {
     }
     
     func saveData() {
-        if let encodeData = try? JSONEncoder().encode(taskGroups) {
+        if let encodeData = try? JSONEncoder().encode(profiles) {
             UserDefaults.standard.set(encodeData, forKey: saveKey)
         }
     }
     
     func loadData() {
         if let savedData = UserDefaults.standard.data(forKey: saveKey) {
-            if let decodedGroups = try? JSONDecoder().decode([TaskGroup].self, from: savedData) {
-                taskGroups = decodedGroups
+            if let decodedProfile = try? JSONDecoder().decode([Profile].self, from: savedData) {
+                profiles = decodedProfile
                 return
             }
         }
-        
         // Show mock data for dev purposes
-        taskGroups = TaskGroup.sampleData
+        profiles = Profile.sample
     }
 }
