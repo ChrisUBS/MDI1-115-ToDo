@@ -30,9 +30,10 @@ struct ContentView: View {
                                     Image(profile.profileImage)
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: 80, height: 80)
+                                        .frame(width: 150, height: 150)
                                         .clipShape(.circle)
                                     Text(profile.name)
+                                        .font(.title2.bold())
                                 }
                             }
                         }

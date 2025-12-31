@@ -54,6 +54,14 @@ struct DashboardView: View {
                     }
                 }
             }
+            Spacer()
+            HStack {
+                Image("Flag")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .clipShape(.circle)
+            }
         } detail: {
             if let group = selectedGroup {
                 if let index = profile.groups.firstIndex(where: { $0.id == group.id}) {

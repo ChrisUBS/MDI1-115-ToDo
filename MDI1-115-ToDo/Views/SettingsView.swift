@@ -13,6 +13,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
 
     let languages = [
+//        ("System", nil),
         ("English", "en"),
         ("Français", "fr"),
         ("Español (LatAm)", "es-419")
