@@ -25,6 +25,7 @@ struct SettingsView: View {
                 // MARK: - Appearance
                 Section("Appearance") {
                     Toggle("Dark Mode", isOn: $isDarkMode)
+                        .accessibilityIdentifier("darkModeToggle")
                 }
 
                 // MARK: - Language
@@ -35,6 +36,7 @@ struct SettingsView: View {
                         }
                     }
                     .pickerStyle(.navigationLink)
+                    .accessibilityIdentifier("languagePicker")
                 }
             }
             .navigationTitle("Settings")

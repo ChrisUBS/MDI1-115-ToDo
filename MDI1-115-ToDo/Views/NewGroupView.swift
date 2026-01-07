@@ -21,6 +21,7 @@ struct NewGroupView: View {
             Form {
                 Section("Group Name") {
                     TextField("Insert the name of your group", text: $groupName)
+                        .accessibilityIdentifier("groupNameTextField")
                 }
                 
                 Section("Select Icon") {

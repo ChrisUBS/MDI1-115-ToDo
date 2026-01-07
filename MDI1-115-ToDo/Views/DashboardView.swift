@@ -19,6 +19,7 @@ struct DashboardView: View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             Text(profile.name)
                 .font(.title)
+                .accessibilityIdentifier("profileName")
             List(selection: $selectedGroup) {
                 ForEach(profile.groups) { group in
                     NavigationLink(value: group) {
@@ -36,6 +37,7 @@ struct DashboardView: View {
                         HStack {
                             Image(systemName: "chevron.left")
                             Text("Home")
+                                .accessibilityIdentifier("homeButton")
                         }
                     }
                 }
@@ -44,6 +46,7 @@ struct DashboardView: View {
                         isShowingAddGroup = true
                     } label: {
                         Image(systemName: "plus")
+                            .accessibilityIdentifier("addGroupButton")
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -51,6 +54,7 @@ struct DashboardView: View {
                         isShowingSettings = true
                     } label: {
                         Image(systemName: "gearshape")
+                            .accessibilityIdentifier("settingsButton")
                     }
                 }
             }
@@ -61,6 +65,7 @@ struct DashboardView: View {
                     .scaledToFit()
                     .frame(width: 60, height: 60)
                     .clipShape(.circle)
+                    .accessibilityIdentifier("flagSticker")
             }
         } detail: {
             if let group = selectedGroup {
@@ -69,6 +74,7 @@ struct DashboardView: View {
                 }
             } else {
                 ContentUnavailableView("Select a Group", systemImage: "sidebar.left")
+                    .accessibilityIdentifier("selectGroup")
             }
         }
         .sheet(isPresented: $isShowingAddGroup) {
