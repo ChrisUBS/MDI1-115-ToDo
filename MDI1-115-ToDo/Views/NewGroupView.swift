@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NewGroupView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var languageManager: LanguageManager
     @State private var groupName = ""
     @State private var selectedIcon = "list.bullet"
     
@@ -43,17 +44,28 @@ struct NewGroupView: View {
             }
             .navigationTitle("New Group Creator")
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
-                        let newGroup = TaskGroup(title: groupName, symbolName: selectedIcon, tasks: [])
-                        onSave(newGroup)
-                        dismiss()
+                if languageManager.isRTL {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Save") { saveGroup() }
+                    }
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") { dismiss() }
+                    }
+                } else {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") { dismiss() }
+                    }
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Save") { saveGroup() }
                     }
                 }
             }
         }
+    }
+    
+    func saveGroup() {
+        let newGroup = TaskGroup(title: groupName, symbolName: selectedIcon, tasks: [])
+        onSave(newGroup)
+        dismiss()
     }
 }

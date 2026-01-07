@@ -14,6 +14,7 @@ struct DashboardView: View {
     @State private var isShowingAddGroup = false
     @State private var isShowingSettings = false
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var languageManager: LanguageManager
     
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -35,7 +36,7 @@ struct DashboardView: View {
                         dismiss()
                     } label: {
                         HStack {
-                            Image(systemName: "chevron.left")
+                            Image(systemName: languageManager.isRTL ? "chevron.right" : "chevron.left")
                             Text("Home")
                                 .accessibilityIdentifier("homeButton")
                         }

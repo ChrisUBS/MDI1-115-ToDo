@@ -16,7 +16,8 @@ struct SettingsView: View {
 //        ("System", nil),
         ("English", "en"),
         ("Français", "fr"),
-        ("Español (LatAm)", "es-419")
+        ("Español (LatAm)", "es-419"),
+        ("Arabic (العربية)", "ar")
     ]
 
     var body: some View {

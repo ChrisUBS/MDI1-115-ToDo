@@ -18,6 +18,10 @@ final class LanguageManager: ObservableObject {
             languageCode = Locale.current.identifier
         }
     }
+    
+    var isRTL: Bool {
+        Locale.characterDirection(forLanguage: languageCode) == .rightToLeft
+    }
 
     var locale: Locale {
         Locale(identifier: languageCode)

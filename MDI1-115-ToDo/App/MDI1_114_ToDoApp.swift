@@ -16,6 +16,7 @@ struct MDI1_114_ToDoApp: App {
             ContentView()
                 .environmentObject(languageManager)
                 .environment(\.locale, languageManager.locale)
+                .environment(\.layoutDirection, languageManager.isRTL ? .rightToLeft : .leftToRight)
         }
     }
 }

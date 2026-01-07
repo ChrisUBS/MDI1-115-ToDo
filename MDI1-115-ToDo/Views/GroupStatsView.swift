@@ -42,6 +42,7 @@ struct GroupStatsView: View {
                 Text("\(completedCount) / \(tasks.count) tasks")
                     .accessibilityIdentifier("taskProgressCount")
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
             Text("Created: \(group.createdAt.formatted(date: .long, time: .omitted))")
                 .accessibilityIdentifier("groupCreatedDate")
